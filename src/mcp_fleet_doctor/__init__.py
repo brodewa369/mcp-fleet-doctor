@@ -10,4 +10,4 @@ Zero runtime dependencies (JSON configs). YAML configs are supported when
 PyYAML happens to be installed; a minimal built-in parser is the fallback.
 """
 
-__version__ = "0.1.0"
+__version__ = "0.2.0"

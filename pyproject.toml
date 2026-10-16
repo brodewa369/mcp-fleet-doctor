@@ -4,13 +4,13 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "mcp-fleet-doctor"
-version = "0.1.0"
-description = "Config-level MCP server doctor: probe every server in your client configs the way a real client would, and say exactly what is broken and why."
+version = "0.2.0"
+description = "Config-level MCP server doctor and security auditor: probe every server in your client configs the way a real client would, say exactly what is broken and why, and heuristically audit the tool surface each one actually exposes at runtime."
 readme = "README.md"
 requires-python = ">=3.9"
 license = {text = "MIT"}
 authors = [{name = "Brodewa"}]
-keywords = ["mcp", "model-context-protocol", "diagnostics", "doctor", "healthcheck", "claude", "hermes", "cursor"]
+keywords = ["mcp", "model-context-protocol", "diagnostics", "doctor", "healthcheck", "security", "audit", "risk", "claude", "hermes", "cursor"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Environment :: Console",
