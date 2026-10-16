@@ -1,0 +1,20 @@
+{
+  "mcpServers": {
+    "example-ok": {
+      "command": "python3",
+      "args": ["examples/ok_server.py"]
+    },
+    "example-missing-dep": {
+      "command": "python3",
+      "args": ["examples/missing_dep_server.py"]
+    },
+    "example-hanging": {
+      "command": "python3",
+      "args": ["examples/hanging_server.py"]
+    },
+    "example-not-installed": {
+      "command": "this-binary-does-not-exist-9z",
+      "args": []
+    }
+  }
+}
