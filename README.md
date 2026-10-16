@@ -105,9 +105,12 @@ healthy fleet is quiet, it does not need to be silenced.
 
 ### Why spawn the servers at all
 
-**Static-only scanners exist** — AgentWard's `scan` and AgentBound-style policy
+**Static-scanning tools exist** — AgentWard's `scan` and AgentBound-style policy
 generators read manifests, source or config and infer risk. They see what the
-*config or the code* claims.
+*config or the code* claims. (AgentWard also ships a separate runtime-gateway
+product; the doctor's audit is not an alternative to running such a gateway —
+it is independent verification of the tool surface, from the same probe the
+liveness verdicts already use.)
 
 The doctor already does the thing a static scanner cannot: it **spawns each
 server and speaks real MCP**. That single fact buys three things:
