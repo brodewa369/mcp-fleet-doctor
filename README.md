@@ -170,6 +170,20 @@ python -m unittest discover -s tests -t .
 `examples/` contains the matrix as runnable servers plus config files in both
 formats; point `--config` at them to see all verdicts in one run.
 
+## Troubleshooting cookbook
+
+The doctor's own output maps 1:1 to these fixes:
+
+| Verdict / hint | What it means | What to do |
+|---|---|---|
+| `bare interpreter 'python3'` | The config trusts host PATH to pick the interpreter | Edit the client config: `command: /absolute/path/to/venv/bin/python` |
+| `command 'x' not found on PATH` | The binary is not installed where the *client* resolves PATH | Install it (npm/pip/uv), or pin the absolute path |
+| `missing module 'X' in that interpreter` | The server crashed importing a dependency | Install `X` **into that exact interpreter** — `path/to/python -m pip install X` |
+| `env $VAR referenced but not set` | Config placeholder has no value in this shell | Export it where the client launches, or hard-code a safe non-secret value |
+| `STARTED_BUT_NO_RESPONSE` | Process lives but ignores MCP | Run it by hand; check whether it's actually a stdio MCP server |
+| `CONNECTED_BUT_NO_TOOLS` | Handshake ok, 0 tools | Check the server's capability declarations / version compat with your client |
+| disabled servers `skipped` | Config deliberately off | Nothing to fix unless you *meant* to enable it |
+
 ## Roadmap
 
 - v0.2: HTTP/SSE verdicts; `--fix` hints (e.g. "pip install X into venv python Y" extracted live from the crash)
