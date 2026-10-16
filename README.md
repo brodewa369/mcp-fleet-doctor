@@ -116,7 +116,7 @@ flowchart TD
     A[Load config: client defaults or --config] --> B[Static checks: interpreter, PATH, env placeholders, cwd]
     B --> C{stdio server declared?}
     C -->|no| Z[report + skip]
-    C -->|yes| D[spawn with safe base env + client env, ${VAR} expanded]
+    C -->|yes|    D[spawn with safe base env + client env, env placeholders expanded]
     D --> E[initialize request]
     E --> F{responds?}
     F -->|died| G[CRASHED_ON_STARTUP — stderr parsed for missing module / traceback]
