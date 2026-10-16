@@ -27,7 +27,9 @@ import threading
 import time
 from collections import deque
 from dataclasses import dataclass, field
-from typing import List, Optional, Tuple
+from typing import Any, List, Optional, Tuple
+
+from . import __version__
 
 VER_OK = "OK"
 VER_NO_TOOLS = "CONNECTED_BUT_NO_TOOLS"
@@ -52,6 +54,10 @@ class ProbeResult:
     stderr_tail: List[str] = field(default_factory=list)
     exit_code: Optional[int] = None
     probe_ms: Optional[int] = None
+    #: full tool descriptors returned by tools/list (the *live* tool surface).
+    #: populated only on a successful listing; deliberately stripped from the
+    #: plain `probe --json` payload and reused by the `audit` command.
+    tool_defs: List[Any] = field(default_factory=list)
 
 
 def _stderr_drain(stream, tail: deque) -> None:
@@ -189,8 +195,8 @@ def _read_response(proc, want_id: int, deadline: float, tail: deque) -> Tuple[Op
 def _handshake(proc, name, startup_timeout, handshake_timeout, call_timeout, tail, th) -> ProbeResult:
     # 1) initialize
     _send(proc, {"jsonrpc": "2.0", "id": 1, "method": "initialize", "params": {
-        "protocolVersion": "2024-11-05", "capabilities": {},
-        "clientInfo": {"name": "mcp-fleet-doctor", "version": "0.1.0"}}})
+            "protocolVersion": "2024-11-05", "capabilities": {},
+            "clientInfo": {"name": "mcp-fleet-doctor", "version": __version__}}})
     resp, eof = _read_response(proc, 1, time.monotonic() + handshake_timeout, tail)
     if resp is None and eof:
         try:
@@ -260,4 +266,5 @@ def _handshake(proc, name, startup_timeout, handshake_timeout, call_timeout, tai
                            exit_code=proc.poll())
     first = ", ".join(sorted(str(t.get("name", "?")) for t in tools)[:6])
     more = f" (+{n-6} more)" if n > 6 else ""
-    return ProbeResult(name, VER_OK, detail=f"{n} tools: {first}{more}", tools=n, exit_code=proc.poll())
+    return ProbeResult(name, VER_OK, detail=f"{n} tools: {first}{more}", tools=n,
+                       exit_code=proc.poll(), tool_defs=tools)

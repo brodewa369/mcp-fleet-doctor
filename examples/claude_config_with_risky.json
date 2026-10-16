@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "example-ok": {
+      "command": "python3",
+      "args": ["examples/ok_server.py"]
+    },
+    "risky": {
+      "command": "python3",
+      "args": ["examples/risky_server.py"],
+      "env": {
+        "DEMO_API_TOKEN": "sk-demo-not-a-real-secret"
+      }
+    },
+    "example-not-installed": {
+      "command": "this-binary-does-not-exist-9z",
+      "args": []
+    }
+  }
+}
